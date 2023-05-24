@@ -1,7 +1,7 @@
 {
     "MC": {
-        "clientId": "1apusq5b5m0t4irhhn8y0g4n",
-        "clientSecret": "yOdFWRfMeOs39LzzHKWyzRQJ",
+        "clientId": "494ytte8e21nyuwr53dujfnh",
+        "clientSecret": "yzQrKG2CFRVMfUGBnQq9cIrU",
         "stack": 7,
         "authVersion": 2,
         "MID": 7232937,
@@ -16,15 +16,15 @@
         "ZaloSubcriberDE": "Zalo_Subscribers"
     },
     "MC_Endpoint": {
-        "authURL": "https://mclhh3l42brv5xvtf743tsqd4cy0.auth.marketingcloudapis.com/",
-        "restURL": "https://mclhh3l42brv5xvtf743tsqd4cy0.rest.marketingcloudapis.com/",
-        "soapURL": "https://mclhh3l42brv5xvtf743tsqd4cy0.soap.marketingcloudapis.com/",
-        "soapURLASMX": "https://mclhh3l42brv5xvtf743tsqd4cy0.soap.marketingcloudapis.com/Service.asmx"
+        "authURL": "https://mccbtprbmvx6g8lp100r-8vnmqf1.auth.marketingcloudapis.com/",
+        "restURL": "https://mccbtprbmvx6g8lp100r-8vnmqf1.rest.marketingcloudapis.com/",
+        "soapURL": "https://mccbtprbmvx6g8lp100r-8vnmqf1.soap.marketingcloudapis.com/",
+        "soapURLASMX": "https://mccbtprbmvx6g8lp100r-8vnmqf1.soap.marketingcloudapis.com/Service.asmx"
     },
     "MC_ContentCategories" : {
-        "BannerImages" : "355332",
-        "Files" : "355333",
-        "LinkImages" : "355334",
+        "BannerImages" : "14623",
+        "Files" : "14624",
+        "LinkImages" : "14625",
         "CustomBlockPrefix" : "VIBER"
     },
     "MC_AssetTypes" :{
