@@ -1,0 +1,50 @@
+{
+    "MC": {
+        "clientId": "1apusq5b5m0t4irhhn8y0g4n",
+        "clientSecret": "yOdFWRfMeOs39LzzHKWyzRQJ",
+        "stack": 7,
+        "authVersion": 2,
+        "MID": 7232937,
+        "force": "standard",
+        "fbDEName": "Facebook Messenger",
+        "fbSendLogDE": "Messenger_Send_Tracking",
+        "viberDEName": "Viber OA_NSBV",
+        "viberSendLogDE": "Viber_Send_Tracking_NSBV",
+        "viberSubcriberDE": "Viber_Subscribers_NSBV",
+        "ZaloSendLogDE": "Zalo_Send_Tracking",
+        "ZaloReceiveLogDE": "Zalo_Receive_Tracking",
+        "ZaloSubcriberDE": "Zalo_Subscribers"
+    },
+    "MC_Endpoint": {
+        "authURL": "https://mclhh3l42brv5xvtf743tsqd4cy0.auth.marketingcloudapis.com/",
+        "restURL": "https://mclhh3l42brv5xvtf743tsqd4cy0.rest.marketingcloudapis.com/",
+        "soapURL": "https://mclhh3l42brv5xvtf743tsqd4cy0.soap.marketingcloudapis.com/",
+        "soapURLASMX": "https://mclhh3l42brv5xvtf743tsqd4cy0.soap.marketingcloudapis.com/Service.asmx"
+    },
+    "MC_ContentCategories" : {
+        "BannerImages" : "355332",
+        "Files" : "355333",
+        "LinkImages" : "355334",
+        "CustomBlockPrefix" : "VIBER"
+    },
+    "MC_AssetTypes" :{
+        "CustomBlock" : "225",
+        "Images" : [20,22,23,28],
+        "Files" : [127,105,106]
+    },
+    "Zalo" : {
+        "ZNS_Endpoint" : "https://business.openapi.zalo.me",
+        "OA_Endpoint" : "https://openapi.zalo.me/v2.0/oa/message",
+        "UploadFile_Endpoint" : "https://openapi.zalo.me/v2.0/oa/upload/file"
+    },
+    "FB" : {
+        "FB_Endpoint" : "https://graph.facebook.com/v14.0/me/messages",
+        "UploadFile_Endpoint" : "https://openapi.zalo.me/v2.0/oa/upload/file"
+    },
+    "Viber" : {
+        "UploadFile_Endpoint" : "https://openapi.zalo.me/v2.0/oa/upload/file",
+        "Viber_Endpoint" : "https://api-04.worldsms.vn/apidebit/sendVIBER",
+        "User":"blueseedapi",
+        "Pass":"ve9Hu8kSdeSE"
+    }
+}

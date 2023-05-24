@@ -1,0 +1,276 @@
+@font-face {
+    font-family: 'Roboto - Regular' !important;
+    src: url('./fonts/Roboto-Regular.woff') format('woff') !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue - Roman' !important;
+    src: url('./fonts/HelveticaNeue-Roman.woff') format('woff') !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+}
+
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important; 
+    height: 100% !important;
+    width: 100% !important;
+    font-family: 'Roboto - Regular', sans-serif !important;
+    background-color: #ECEBEA !important;
+    line-height: 1.4 !important;
+}
+
+header {
+    height: 45px !important;
+    background-color: #16325C !important;
+    text-align: center !important;
+    color: #fff !important;
+    padding: 12px 8px 8px !important;
+    display: flex !important;
+}
+
+body {
+    overflow: auto !important;
+}
+
+.home-icon {
+    width: 22px !important;
+    height: 22px !important;
+    /*margin: 20px 10px 0 0 !important;*/
+}
+
+.home-icon svg {
+    fill: #FFFFFF !important;
+}
+
+.chevron-left-icon {
+    width: 22px !important;
+    height: 22px !important;
+    /*margin-top: 20px !important;*/
+}
+
+.chevron-left-icon svg {
+    fill: #FFFFFF !important;
+}
+
+.chevron-down-icon {
+    width: 22px !important;
+    height: 22px !important;
+    /*margin: 25px 0 0 0 !important;*/
+}
+
+.chevron-down-icon svg {
+    fill: #FFFFFF !important;
+}
+
+.blue-bar {
+    flex-grow: 10 !important;
+    background-color: #0070D2 !important;
+    /*margin: 25px 20px 5px 20px !important;*/
+}
+
+#previewer-container {
+    height: calc(520px - 65px) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+
+#previewer-container.landscape {
+    height: calc(292px - 65px) !important;
+}
+
+.container {
+    position: relative !important;
+    padding: 10px 10px 0 10px !important;
+}
+
+.container:last-child {
+    padding-bottom: 10px !important;
+}
+
+.container > div {
+    display: inline-block !important;
+    vertical-align: top !important;
+}
+
+.container > div:first-child {
+    padding-right: 10px !important;
+}
+
+.container > div:last-child {
+    border-radius: .5rem !important;
+}
+
+.user-icon {
+    width: 22px !important;
+    height: 22px !important;
+    background: url('./images/bdf53405-b91f-461f-b82c-d4d8fbe46097.png') !important;
+    background-repeat: no-repeat !important;
+}
+
+.audio-empty {
+    width: 136px !important;
+    height: 30px !important;
+    background: url('./images/d79fe4e7-727c-47fa-a290-6a0c111d96f7.png') !important;
+    background-repeat: no-repeat !important;
+}
+
+.text {
+    max-width: 202px !important;
+    padding: 10px !important;
+    color: #555555 !important;
+    font-size: 10px !important;
+    background-color: #FFFFFF !important;
+    word-break: break-word !important;
+    -ms-word-wrap: break-word !important;
+    display: -webkit-box !important;
+    position: relative !important;
+    border-radius: .5rem !important;
+}
+
+.bubble-arrow {
+    position: absolute !important;
+    width: 0 !important;
+    left: 30px !important;
+    height: 0 !important;
+    top: 0px !important;
+}
+
+.bubble-arrow:after {
+    content: "" !important;
+    position: absolute !important;
+    border: 0 solid transparent !important;
+    border-top: 9px solid #FFFFFF !important;
+    border-radius: 0 25px 0 !important;
+    width: 15px !important;
+    height: 30px !important;
+    transform: rotate(145deg) !important;
+}
+
+.image-container {
+    position: relative !important;
+    line-height: 0!important;
+    border-radius: .5rem !important;
+}
+
+.image {
+    max-width: 202px !important;
+    max-height: 340px !important;
+    border-radius: .5rem !important;
+    background-color: #E3F7FF !important;
+}
+    
+.video {
+    position: relative !important;
+    line-height: 0 !important;
+}
+
+.video-opacity {
+    height: 100% !important;
+    width: 100% !important;
+    position: absolute !important;
+    top: 0 !important;
+    background-color: #000000 !important;
+    opacity: .4 !important;
+    border-radius: .5rem !important;
+}
+
+.video svg {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 100% !important;
+}
+
+.video svg #bkgd {
+    fill: transparent !important;
+}
+
+.audio-time {
+    position: absolute !important;
+    top: 19px !important;
+    left: 75px !important;
+    color: #555555 !important;
+    font-size: 10px !important;
+    background-color: #FFFFFF !important;
+}
+
+.landscape .text {
+    max-width: 302px !important;
+    min-width: 302px !important;
+}
+
+.landscape .image,
+.landscape .video {
+    max-width: 322px !important;
+}
+
+.map-container {
+    position: relative !important;
+    margin-left: -5px !important;
+}
+
+.map-container .imagemap {
+    position: relative !important;
+    padding: 0px !important;
+    border-radius: .5rem !important;
+    width: 282px !important;
+    height: 282px !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+}
+
+.map-container .imagemap canvas {
+    position: absolute !important; 
+    left: 0px !important;
+    top: 0px !important;
+    padding: 0px !important;
+    width: 282px !important;
+    height: 282px !important;
+    border: 0px !important;
+    opacity: 1 !important;
+}
+
+.map-container .imagemap img {
+    position: absolute !important;
+    display: block !important;
+    top: 0px !important;
+    left: 0px !important;
+    height: 282px !important;
+    width: 282px !important;
+    padding: 0px !important;
+    border: 0px !important;
+    opacity: 0 !important;
+}
+
+.map-container .highlight {
+    position: absolute !important;
+    background-color: #FFFFFF !important;
+    opacity: .5 !important;
+}
+
+.landscape .map-container .imagemap,
+.landscape .map-container .imagemap canvas,
+.landscape .map-container .imagemap img {
+    width: 368px !important;
+    height: 368px  !important;
+}
+    
+.line-sticker-container {
+    position: relative !important;
+    max-width: 220px !important;
+}
+
+.landscape .line-sticker-container {
+    max-width: none !important;
+}
+
+.line-sticker {
+    height: 58px !important; 
+    width: 57px !important;
+    margin: 0 .5rem .5rem 0 !important;
+}

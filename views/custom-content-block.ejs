@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/assets/styles/salesforce-lightning-design-system.css" />
+    <script type="text/javascript" src="/js/libs/blocksdk.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/custom-activity-block-preview.css" />
+    <title>Viber Custom Block</title>
+</head>
+
+<body>
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-standard-apps" title="Zalo Content">
+                        <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#apps"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Viber Content Block</span>
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <a href="#" class="slds-card__header-link slds-truncate" title="Viber Content">
+                            <span>Viber Content</span>
+                        </a>
+                    </h2>
+                </div>
+                <div class="slds-no-flex">
+                    <button class="slds-button slds-button_brand" onclick="validate()">Validate</button>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <div class="slds-form" id="workspace">
+                <div class="slds-form-element slds-form-element_stacked">
+                    <label class="slds-form-element__label" for="messageType">Message Type</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-select_container">
+                            <select class="slds-select" id="messageType" onchange="onMessageTypeChange(this)">
+                                <option value="">Choose a type</option>
+                                <option value="text-area">Text Only</option>
+                                
+                                <option value="form-photo">Template</option>
+                                <!--
+                                <option value="form-list">Link/Button list</option>
+                                <option value="list-button">Button list</option>                                
+                                <option value="user-info">User Info Request Form</option>
+                                <option value="notice">File (PDF/DOCX/DOC)</option>
+                                -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Send Text section-->
+                <fieldset class="slds-form-element slds-form-element_compound slds-hide section" id="text-area">
+                    <legend class="slds-form-element__legend slds-form-element__label slds-text-heading_medium">Send Text</legend>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-form-element_stacked">
+                                <label class="slds-form-element__label" for="txtBlock1">Text message</label>
+                                <div class="slds-form-element__control">
+                                    <textarea id="txtBlock1" placeholder="Add your text..." class="slds-textarea" maxlength="2000"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!--Send Text with photo-->
+                <fieldset class="slds-form-element slds-form-element_compound slds-hide section" id="form-photo">
+                    <legend class="slds-form-element__legend slds-form-element__label slds-text-heading_medium">Template</legend>
+                    <div class="slds-form-element__control">
+                        <!--HOANG T -->    
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-form-element_stacked">
+                                <label class="slds-form-element__label" for="txtBlock2a">Template ID</label>
+                                <div class="slds-form-element__control">
+                                    <textarea id="txtBlock2a" placeholder="Add template id: " class="slds-textarea" maxlength="2000"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!--HOANG T --> 
+
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-form-element_stacked">
+                                <label class="slds-form-element__label" for="txtBlock2">Field Mapping</label>
+                                <div class="slds-form-element__control">
+                                    <textarea id="txtBlock2" placeholder="Add your fields..." class="slds-textarea" maxlength="2000"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-form-element_stacked">
+                                <label class="slds-form-element__label" for="photo">Select photo</label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-select_container">
+                                        <select class="slds-select bannerImage" id="photo" name="photo">
+                                            <option value="">Choose an image</option>
+                                            <% bannerImages.forEach(item => { %>
+                                                <option value="<%=item.fileProperties.publishedURL %>"><%=item.name%></option>
+                                             <%})%>   
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!--Send link/button list-->
+                <fieldset class="slds-form-element slds-form-element_compound slds-hide section" id="form-list">
+                    <legend class="slds-form-element__legend slds-form-element__label slds-text-heading_medium">Link/Button List</legend>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__row">
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-type1"><abbr class="slds-required" title="required">* </abbr>Type</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container">
+                                            <select class="slds-select selectType" id="form-list-type1" name="form-list-type1" data-row="1" onchange="showOptions(this)">
+                                                <option value="">Choose a type</option>
+                                                <option value="button">Button</option>
+                                                <option value="link">Link</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-title1"><abbr class="slds-required" title="required">* </abbr>Title</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="form-list-title1" type="text" placeholder="Add your text…" class="slds-input title" maxlength="100" />
+                                    </div>
+                                </div>
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-subTitle"><abbr class="slds-required" title="required">* </abbr>Sub Title</label>
+                                    <div class="slds-form-element__control">
+                                        <!-- <input id="form-list-subTitle" type="text" placeholder="Add your text…" class="slds-input subTitle" maxlength="500" /> -->
+                                        <textarea id="form-list-subTitle" type="text" placeholder="Add your text…" class="slds-input subTitle" maxlength="500"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4 slds-hide" id="list-response1">
+                                <div class="slds-form-element slds-form-element_stacked " >
+                                    <label class="slds-form-element__label" for="form-list-response1"><abbr class="slds-required" title="required">* </abbr>Response Text</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="form-list-response1" type="text" placeholder="Add your text…" class="slds-input responseMessage" maxlength="100" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4 slds-hide" id="list-link1" >
+                                <div class="slds-form-element slds-form-element_stacked" >
+                                    <label class="slds-form-element__label" for="form-list-url1"><abbr class="slds-required" title="required">* </abbr>Link URL</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="form-list-url1" type="text" placeholder="Add your text…" class="slds-input link" maxlength="100" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-image1"><abbr class="slds-required" title="required">* </abbr>Select Image</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container">
+                                            <select class="slds-select bannerImage" id="form-list-image1">
+                                                <option value="">Choose an image</option>
+                                                <% bannerImages.forEach(item => { %>
+                                                    <option value="<%=item.fileProperties.publishedURL %>"><%=item.name%></option>
+                                                 <%})%> 
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-type2">Type</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container">
+                                            <select class="slds-select selectType" id="form-list-type2" name="form-list-type2" data-row="2" onchange="showOptions(this)">
+                                                <option value="">Choose a type</option>
+                                                <option value="button">Button</option>
+                                                <option value="link">Link</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-title2">Title</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="form-list-title2" type="text" placeholder="Add your text…" class="slds-input title" maxlength="200" />
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="slds-size_1-of-4 slds-hide" id="list-response2">
+                                <div class="slds-form-element slds-form-element_stacked" >
+                                    <label class="slds-form-element__label" for="form-list-response2">Response Text</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="form-list-response2" type="text" placeholder="Add your text…" class="slds-input responseMessage" maxlength="200" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4 slds-hide" id="list-link2">
+                                <div class="slds-form-element slds-form-element_stacked" >
+                                    <label class="slds-form-element__label" for="form-list-url2">Link URL</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="form-list-url2" type="text" placeholder="Add your text…" class="slds-input link" maxlength="200" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-image2">Select Image</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container">
+                                            <select class="slds-select linkImage" id="form-list-image2">
+                                                <option value="">Choose an image</option>
+                                                <% linkImages.forEach(item => { %>
+                                                    <option value="<%=item.fileProperties.publishedURL %>"><%=item.name%></option>
+                                                 <%})%>      
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-type3">Type</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container">
+                                            <select class="slds-select selectType" id="form-list-type3" name="form-list-type3" data-row="3" onchange="showOptions(this)">
+                                                <option value="">Choose a type</option>
+                                                <option value="button">Button</option>
+                                                <option value="link">Link</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-title3">Title</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="form-list-title3" type="text" placeholder="Add your text…" class="slds-input title" maxlength="300" />
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="slds-size_1-of-4 slds-hide" id="list-response3">
+                                <div class="slds-form-element slds-form-element_stacked" >
+                                    <label class="slds-form-element__label" for="form-list-response3">Response Text</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="form-list-response3" type="text" placeholder="Add your text…" class="slds-input responseMessage" maxlength="300" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4 slds-hide" id="list-link3">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-url3">Link URL</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="form-list-url3" type="text" placeholder="Add your text…" class="slds-input link" maxlength="300" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-image3">Select Image</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container">
+                                            <select class="slds-select linkImage" id="form-list-image3">
+                                                <option value="">Choose an image</option>
+                                                <% linkImages.forEach(item => { %>
+                                                    <option value="<%=item.fileProperties.publishedURL %>"><%=item.name%></option>
+                                                 <%})%>   
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-type4">Type</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container">
+                                            <select class="slds-select selectType" id="form-list-type4" name="form-list-type4" data-row="4" onchange="showOptions(this)">
+                                                <option value="">Choose a type</option>
+                                                <option value="button">Button</option>
+                                                <option value="link">Link</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-title4">Title</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="form-list-title4" type="text" placeholder="Add your text…" class="slds-input title" maxlength="400" />
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="slds-size_1-of-4 slds-hide" id="list-response4">
+                                <div class="slds-form-element slds-form-element_stacked" >
+                                    <label class="slds-form-element__label" for="form-list-response4">Response Text</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="form-list-response4" type="text" placeholder="Add your text…" class="slds-input responseMessage" maxlength="400" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4 slds-hide" id="list-link4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-url4">Link URL</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="form-list-url4" type="text" placeholder="Add your text…" class="slds-input link" maxlength="400" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-image4">Select Image</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container">
+                                            <select class="slds-select linkImage" id="form-list-image4">
+                                                <option value="">Choose an image</option>
+                                                <% linkImages.forEach(item => { %>
+                                                    <option value="<%=item.fileProperties.publishedURL %>"><%=item.name%></option>
+                                                 <%})%>   
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-type5">Type</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container">
+                                            <select class="slds-select selectType" id="form-list-type5" name="form-list-type5" data-row="5" onchange="showOptions(this)">
+                                                <option value="">Choose a type</option>
+                                                <option value="button">Button</option>
+                                                <option value="link">Link</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-title5">Title</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="form-list-title5" type="text" placeholder="Add your text…" class="slds-input title" maxlength="500" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4 slds-hide" id="list-response5">
+                                <div class="slds-form-element slds-form-element_stacked" >
+                                    <label class="slds-form-element__label" for="form-list-response5">Response Text</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="form-list-response5" type="text" placeholder="Add your text…" class="slds-input responseMessage" maxlength="500" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4 slds-hide slds-hide" id="list-link5">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-url5">Link URL</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="form-list-url5" type="text" placeholder="Add your text…" class="slds-input link" maxlength="500" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="form-list-image5">Select Image</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container">
+                                            <select class="slds-select linkImage" id="form-list-image5">
+                                                <option value="">Choose an image</option>
+                                                <% linkImages.forEach(item => { %>
+                                                    <option value="<%=item.fileProperties.publishedURL %>"><%=item.name%></option>
+                                                 <%})%>   
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!--Send button list-->
+                <fieldset class="slds-form-element slds-form-element_compound slds-hide section" id="list-button">
+                    <legend class="slds-form-element__legend slds-form-element__label slds-text-heading_medium">Button List</legend>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-form-element_stacked">
+                                <label class="slds-form-element__label" for="list-button-message"><abbr class="slds-required" title="required">* </abbr>Text message</label>
+                                <div class="slds-form-element__control">
+                                    <textarea id="list-button-message" placeholder="Add your text..." class="slds-textarea"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="list-button-type1">Type</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container">
+                                            <select class="slds-select selectType" id="list-button-type1" data-row="1" onchange="showOptions(this)">
+                                                <option value="">Choose a type</option>
+                                                <option value="button">Button</option>
+                                                <option value="link">Link</option>
+												<option value="phone">Phone</option>
+												<option value="sms">SMS</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="list-button-title1">Title</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-title1" type="text" placeholder="Add your text…" class="slds-input title" maxlength="100" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked slds-hide" id="response1">
+                                    <label class="slds-form-element__label" for="list-button-response1">Response Text</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-response1" type="text" placeholder="Add your text…" class="slds-input responseMessage" maxlength="100" />
+                                    </div>
+                                </div>
+                                <div class="slds-form-element slds-form-element_stacked slds-hide" id="link1">
+                                    <label class="slds-form-element__label" for="list-button-url1">Link URL</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-url1" type="text" placeholder="Add your text…" class="slds-input link" maxlength="100" />
+                                    </div>
+                                </div>
+								 <div class="slds-form-element slds-form-element_stacked slds-hide" id="phone1" >
+                                    <label class="slds-form-element__label" for="list-button-url1">Phone Number</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-phone1" type="text" placeholder="Add your text…" class="slds-input phone" maxlength="100" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked slds-hide" id="sms1">
+                                    <label class="slds-form-element__label" for="list-button-image1">SMS Content</label>
+                                    <div class="slds-form-element__control">
+                                        <input type="text" placeholder="Add your text..." class="slds-input sms" id="list-button-sms1" maxlength="160"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="list-button-type2">Type</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container">
+                                            <select class="slds-select selectType" id="list-button-type2" name="list-button-type2" data-row="2" onchange="showOptions(this)">
+                                                <option value="">Choose a type</option>
+                                                <option value="button">Button</option>
+                                                <option value="link">Link</option>
+												<option value="phone">Phone</option>
+												<option value="sms">SMS</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="list-button-title2">Title</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-title2" type="text" placeholder="Add your text…" class="slds-input title" maxlength="200" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked slds-hide" id="response2">
+                                    <label class="slds-form-element__label" for="list-button-response2">Response Text</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-response2" type="text" placeholder="Add your text…" class="slds-input responseMessage" maxlength="200" />
+                                    </div>
+                                </div>
+                                <div class="slds-form-element slds-form-element_stacked slds-hide" id="link2">
+                                    <label class="slds-form-element__label" for="list-button-url2">Link URL</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-url2" type="text" placeholder="Add your text…" class="slds-input link" maxlength="200" />
+                                    </div>
+                                </div>
+								 <div class="slds-form-element slds-form-element_stacked slds-hide" id="phone2">
+                                    <label class="slds-form-element__label" for="list-button-url2">Phone Number</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-phone2" type="text" placeholder="Add your text…" class="slds-input phone" maxlength="200" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked slds-hide" id="sms2">
+                                    <label class="slds-form-element__label" for="list-button-image2">SMS Content</label>
+                                    <div class="slds-form-element__control">
+                                        <input type="text" placeholder="Add your text..." class="slds-input sms" id="list-button-sms2" maxlength="260"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="list-button-type3">Type</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container">
+                                            <select class="slds-select selectType" id="list-button-type3" name="list-button-type3" data-row="3" onchange="showOptions(this)">
+                                                <option value="">Choose a type</option>
+                                                <option value="button">Button</option>
+                                                <option value="link">Link</option>
+												<option value="phone">Phone</option>
+												<option value="sms">SMS</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="list-button-title3">Title</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-title3" type="text" placeholder="Add your text…" class="slds-input title" maxlength="300" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked slds-hide" id="response3">
+                                    <label class="slds-form-element__label" for="list-button-response3">Response Text</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-response3" type="text" placeholder="Add your text…" class="slds-input responseMessage" maxlength="300" />
+                                    </div>
+                                </div>
+                                <div class="slds-form-element slds-form-element_stacked slds-hide" id="link3">
+                                    <label class="slds-form-element__label" for="list-button-url3">Link URL</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-url3" type="text" placeholder="Add your text…" class="slds-input link" maxlength="300" />
+                                    </div>
+                                </div>
+								 <div class="slds-form-element slds-form-element_stacked slds-hide" id="phone3">
+                                    <label class="slds-form-element__label" for="list-button-url3">Phone Number</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-phone3" type="text" placeholder="Add your text…" class="slds-input phone" maxlength="300" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked slds-hide" id="sms3">
+                                    <label class="slds-form-element__label" for="list-button-image3">SMS Content</label>
+                                    <div class="slds-form-element__control">
+                                        <input type="text" placeholder="Add your text..." class="slds-input sms" id="list-button-sms3" maxlength="360"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="list-button-type4">Type</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container">
+                                            <select class="slds-select selectType" id="list-button-type4" name="list-button-type4" data-row="4" onchange="showOptions(this)">
+                                                <option value="">Choose a type</option>
+                                                <option value="button">Button</option>
+                                                <option value="link">Link</option>
+												<option value="phone">Phone</option>
+												<option value="sms">SMS</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="list-button-title4">Title</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-title4" type="text" placeholder="Add your text…" class="slds-input title" maxlength="400" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked slds-hide" id="response4">
+                                    <label class="slds-form-element__label" for="list-button-response4">Response Text</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-response4" type="text" placeholder="Add your text…" class="slds-input responseMessage" maxlength="400" />
+                                    </div>
+                                </div>
+                                <div class="slds-form-element slds-form-element_stacked slds-hide" id="link4">
+                                    <label class="slds-form-element__label" for="list-button-url4">Link URL</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-url4" type="text" placeholder="Add your text…" class="slds-input link" maxlength="400" />
+                                    </div>
+                                </div>
+								 <div class="slds-form-element slds-form-element_stacked slds-hide" id="phone4">
+                                    <label class="slds-form-element__label" for="list-button-url4">Phone Number</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-phone4" type="text" placeholder="Add your text…" class="slds-input phone" maxlength="400" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked slds-hide" id="sms4">
+                                    <label class="slds-form-element__label" for="list-button-image4">SMS Content</label>
+                                    <div class="slds-form-element__control">
+                                        <input type="text" placeholder="Add your text..." class="slds-input sms" id="list-button-sms4" maxlength="460"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="list-button-type5">Type</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container">
+                                            <select class="slds-select selectType" id="list-button-type5" name="list-button-type5" data-row="5" onchange="showOptions(this)">
+                                                <option value="">Choose a type</option>
+                                                <option value="button">Button</option>
+                                                <option value="link">Link</option>
+												<option value="phone">Phone</option>
+												<option value="sms">SMS</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label" for="list-button-title5">Title</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-title5" type="text" placeholder="Add your text…" class="slds-input title" maxlength="500" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked slds-hide" id="response5">
+                                    <label class="slds-form-element__label" for="list-button-response5">Response Text</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-response5" type="text" placeholder="Add your text…" class="slds-input responseMessage" maxlength="500" />
+                                    </div>
+                                </div>
+                                <div class="slds-form-element slds-form-element_stacked slds-hide" id="link5">
+                                    <label class="slds-form-element__label" for="list-button-url5">Link URL</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-url5" type="text" placeholder="Add your text…" class="slds-input link" maxlength="500" />
+                                    </div>
+                                </div>
+								 <div class="slds-form-element slds-form-element_stacked slds-hide" id="phone5">
+                                    <label class="slds-form-element__label" for="list-button-url5">Phone Number</label>
+                                    <div class="slds-form-element__control">
+                                        <input id="list-button-phone5" type="text" placeholder="Add your text…" class="slds-input phone" maxlength="500" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-form-element slds-form-element_stacked slds-hide" id="sms5">
+                                    <label class="slds-form-element__label" for="list-button-image5">SMS Content</label>
+                                    <div class="slds-form-element__control">
+                                        <input type="text" placeholder="Add your text..." class="slds-input sms" id="list-button-sms5" maxlength="560"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!--Send User Info Request Form-->
+                <fieldset class="slds-form-element slds-form-element_compound slds-hide section" id="user-info">
+                    <legend class="slds-form-element__legend slds-form-element__label slds-text-heading_medium">User Info Request Form</legend>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-form-element_stacked">
+                                <label class="slds-form-element__label" for="user-info-title"><abbr class="slds-required" title="required">* </abbr>Title</label>
+                                <div class="slds-form-element__control">
+                                    <input type="text" id="user-info-title" placeholder="Add your text..."  class="slds-input" maxlength="100" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-form-element_stacked">
+                                <label class="slds-form-element__label" for="user-info-subTitle"><abbr class="slds-required" title="required">* </abbr>Sub Title</label>
+                                <div class="slds-form-element__control">
+                                    <!-- <input type="text" id="user-info-subTitle" placeholder="Add your text..."  class="slds-input" maxlength="500" /> -->
+                                    <textarea id="user-info-subTitle" placeholder="Add your text..."  class="slds-input" maxlength="500"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-form-element_stacked">
+                                <label class="slds-form-element__label" for="user-info-image"><abbr class="slds-required" title="required">* </abbr>Select Image</label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-select_container">
+                                        <select class="slds-select" id="user-info-image">
+                                            <option value="">Choose an image</option>
+                                            <% bannerImages.forEach(item => { %>
+                                                <option value="<%=item.fileProperties.publishedURL %>"><%=item.name%></option>
+                                             <%})%> 
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!--Send File-->
+                <fieldset class="slds-form-element slds-form-element_compound slds-hide section" id="notice">
+                    <legend class="slds-form-element__legend slds-form-element__label slds-text-heading_medium">File</legend>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-form-element_stacked">
+                                <label class="slds-form-element__label" for="notice-file"><abbr class="slds-required" title="required">* </abbr>Select File</label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-select_container">
+                                        <select class="slds-select" id="notice-file">
+                                            <option value="">Choose a file</option>
+                                            <% files.forEach(item => { %>
+                                                <option value="<%=item.fileProperties.publishedURL%>" data-size="<%=item.fileProperties.fileSize%>"
+                                                    data-extension="<<%=item.fileProperties.extension%>" data-fileId="<%=item.id%>"
+                                                    ><%=item.name%></option>
+                                             <%})%> 
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div>
+        </div>
+    </article>
+
+    <script type="text/javascript" src="/js/custom_content_block.js"></script>
+</body>
+
+</html>
